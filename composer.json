@@ -2,7 +2,7 @@
     "name": "jmleroux/jml-rbac-zdb",
     "description": "Zend providers for ZfcRbac module",
     "type": "library",
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "keywords": [
         "module",
         "zf2",
