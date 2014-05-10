@@ -1,22 +1,22 @@
 <?php
-/**
- * @package ZfcRbac
- * @subpackage Provider
- */
+
 namespace JmlRbacZdb\Provider\AdjacencyList\Role;
 
+use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Db\Adapter\AdapterInterface;
 use ZfcRbac\Provider\AbstractProvider;
 use ZfcRbac\Provider\Event;
+
 /**
  * Zend Db provider
  * @author jmleroux
  */
 class ZendDb extends AbstractProvider
 {
-    /** @var AdapterInterface */
+    /**
+     * @var Adapter
+     */
     protected $_adapter;
 
     /**
@@ -25,35 +25,21 @@ class ZendDb extends AbstractProvider
     protected $roles;
 
     /**
-     * @var CommonOptions
+     * @var ZendDbOptions
      */
     protected $_options;
 
-    /**
-     * @param Connection $connection
-     * @param array $options
-     */
-    public function __construct(AdapterInterface $adapter, array $options)
+    public function __construct(Adapter $adapter, array $options)
     {
         $this->_adapter = $adapter;
-        $this->_options  = new ZendDbOptions($options);
+        $this->_options = new ZendDbOptions($options);
     }
 
-    /**
-     * Attach to the listeners.
-     *
-     * @param  EventManagerInterface $events
-     * @return void
-     */
     public function attach(EventManagerInterface $events)
     {
         $events->attach(Event::EVENT_LOAD_ROLES, array($this, 'loadRoles'));
     }
 
-    /**
-     * @param EventManagerInterface $events
-     * @return void
-     */
     public function detach(EventManagerInterface $events)
     {
         $events->detach($this);
@@ -63,6 +49,7 @@ class ZendDb extends AbstractProvider
      * Load roles at RBAC creation.
      *
      * @param Event $e
+     * @throws \DomainException
      * @return array
      */
     public function loadRoles(Event $e)
@@ -92,11 +79,10 @@ class ZendDb extends AbstractProvider
         }
 
         $roles = array();
-        foreach($result as $row) {
+        foreach ($result as $row) {
             if (isset($row->parent) && $row->parent) {
                 $parentName = $row->parent;
-            }
-            else {
+            } else {
                 $parentName = 0;
             }
             $roles[$parentName][] = $row->name;
@@ -110,9 +96,9 @@ class ZendDb extends AbstractProvider
      *
      * @static
      * @param ServiceLocatorInterface $sl
-     * @param array                   $spec
-     * @throws DomainException
-     * @return Db
+     * @param array $spec
+     * @throws \DomainException
+     * @return ZendDb
      */
     public static function factory(ServiceLocatorInterface $sl, array $spec)
     {
@@ -121,14 +107,14 @@ class ZendDb extends AbstractProvider
             throw new \DomainException('Missing required parameter: connection');
         }
 
-        if (!is_string($adapter) || $sl->has($adapter)) {
+        if (is_string($adapter) && $sl->has($adapter)) {
             $adapter = $sl->get($adapter);
         } else {
             throw new \DomainException('Failed to find Db Connection');
         }
 
-        $options = isset($spec['options']) ? (array) $spec['options'] : array();
+        $options = isset($spec['options']) ? (array)$spec['options'] : array();
 
-        return new ZendDb($adapter, array());
+        return new ZendDb($adapter, $options);
     }
 }

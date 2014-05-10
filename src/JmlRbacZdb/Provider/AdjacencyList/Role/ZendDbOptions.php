@@ -1,8 +1,4 @@
 <?php
-/**
- * @package ZfcRbac
- * @subpackage Provider
- */
 namespace JmlRbacZdb\Provider\AdjacencyList\Role;
 
 use Zend\Stdlib\AbstractOptions;
@@ -42,7 +38,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param  string $idColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setIdColumn($idColumn)
     {
@@ -60,7 +56,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param  string $joinColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setJoinColumn($joinColumn)
     {
@@ -78,7 +74,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param  string $nameColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setNameColumn($nameColumn)
     {
@@ -96,7 +92,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param  string $table
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setTable($table)
     {
