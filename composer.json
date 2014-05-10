@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zf-commons/zfc-rbac": "dev-master"
+        "zf-commons/zfc-rbac": "~0.2"
     },
 
     "autoload": {
