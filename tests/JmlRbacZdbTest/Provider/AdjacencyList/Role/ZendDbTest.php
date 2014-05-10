@@ -2,11 +2,10 @@
 
 namespace JmlRbacZdbTest\Provider\AdjacencyList\Role;
 
+use JmlRbacZdb\Provider\AdjacencyList\Role\ZendDb;
+use JmlRbacZdbTest\Bootstrap;
+use JmlRbacZdbTest\RbacServiceTestCase;
 use ZfcRbac\Service\Rbac as RbacService;
-use ZfcRbac\Provider\AdjacencyList\Role\ZendDb;
-
-use ZfcRbacTest\Bootstrap;
-use ZfcRbacTest\RbacServiceTestCase;
 
 class ZendDbTest extends RbacServiceTestCase
 {

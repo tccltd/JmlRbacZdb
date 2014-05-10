@@ -2,11 +2,10 @@
 
 namespace JmlRbacZdbTest\Provider\Generic\Permission;
 
+use JmlRbacZdb\Provider\Generic\Permission\ZendDb;
+use JmlRbacZdbTest\Bootstrap;
+use JmlRbacZdbTest\RbacServiceTestCase;
 use ZfcRbac\Service\Rbac as RbacService;
-use ZfcRbac\Provider\Generic\Permission\ZendDb;
-
-use ZfcRbacTest\Bootstrap;
-use ZfcRbacTest\RbacServiceTestCase;
 
 class ZendDbTest extends RbacServiceTestCase
 {
