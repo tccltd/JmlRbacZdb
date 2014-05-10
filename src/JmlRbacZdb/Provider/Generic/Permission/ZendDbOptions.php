@@ -1,8 +1,4 @@
 <?php
-/**
- * @package ZfcRbac
- * @subpackage Provider
- */
 namespace JmlRbacZdb\Provider\Generic\Permission;
 
 use Zend\Stdlib\AbstractOptions;
@@ -74,7 +70,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param  string $permissionIdColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setPermissionIdColumn($permissionIdColumn)
     {
@@ -92,7 +88,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $permissionJoinColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setPermissionJoinColumn($permissionJoinColumn)
     {
@@ -110,7 +106,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $permissionNameColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setPermissionNameColumn($permissionNameColumn)
     {
@@ -128,7 +124,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $permissionTable
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setPermissionTable($permissionTable)
     {
@@ -146,7 +142,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $roleIdColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setRoleIdColumn($roleIdColumn)
     {
@@ -164,7 +160,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $roleJoinColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setRoleJoinColumn($roleJoinColumn)
     {
@@ -182,7 +178,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $roleJoinTable
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setRoleJoinTable($roleJoinTable)
     {
@@ -200,7 +196,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $roleNameColumn
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setRoleNameColumn($roleNameColumn)
     {
@@ -218,7 +214,7 @@ class ZendDbOptions extends AbstractOptions
 
     /**
      * @param string $roleTable
-     * @return DoctrineDbalOptions
+     * @return $this
      */
     public function setRoleTable($roleTable)
     {

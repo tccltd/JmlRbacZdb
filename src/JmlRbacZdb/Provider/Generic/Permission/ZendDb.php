@@ -1,20 +1,16 @@
 <?php
-/**
- * @package ZfcRbac
- * @subpackage Provider
- */
 namespace JmlRbacZdb\Provider\Generic\Permission;
 
+use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcRbac\Provider\AbstractProvider;
 use ZfcRbac\Provider\Event;
-use Zend\Db\Adapter\AdapterInterface;
 
 class ZendDb extends AbstractProvider
 {
     /**
-     * @var AdapterInterface
+     * @var Adapter
      */
     protected $_adapter;
 
@@ -24,44 +20,26 @@ class ZendDb extends AbstractProvider
     protected $_roles;
 
     /**
-     * @var Options
+     * @var ZendDbOptions
      */
     protected $_options;
 
-    /**
-     * @param AdapterInterface $connection
-     * @param array $options
-     */
-    public function __construct(AdapterInterface $adapter, array $options)
+    public function __construct(Adapter $adapter, array $options)
     {
         $this->_adapter = $adapter;
-        $this->_options  = new ZendDbOptions($options);
+        $this->_options = new ZendDbOptions($options);
     }
 
-    /**
-     * Attach to the listeners.
-     *
-     * @param  EventManagerInterface $events
-     * @return void
-     */
     public function attach(EventManagerInterface $events)
     {
         $events->attach(Event::EVENT_LOAD_PERMISSIONS, array($this, 'loadPermissions'));
     }
 
-    /**
-     * @param EventManagerInterface $events
-     */
     public function detach(EventManagerInterface $events)
     {
         $events->detach($this);
     }
 
-    /**
-     * Load permissions into roles.
-     *
-     * @param Event $e
-     */
     public function loadPermissions(Event $e)
     {
         $options = $this->_options;
@@ -91,24 +69,15 @@ class ZendDb extends AbstractProvider
             throw new \DomainException('No permission loaded');
         }
 
-        $rbac    = $e->getRbac();
+        $rbac = $e->getRbac();
 
-        foreach($result as $row) {
+        foreach ($result as $row) {
             if ($rbac->hasRole($row->role)) {
                 $rbac->getRole($row->role)->addPermission($row->permission);
             }
         }
     }
 
-    /**
-     * Factory to create the provider.
-     *
-     * @static
-     * @param ServiceLocatorInterface $sl
-     * @param array                   $spec
-     * @throws DomainException
-     * @return DoctrineDbal
-     */
     public static function factory(ServiceLocatorInterface $sl, array $spec)
     {
         $adapter = isset($spec['connection']) ? $spec['connection'] : null;
@@ -122,8 +91,8 @@ class ZendDb extends AbstractProvider
             throw new \DomainException('Failed to find Db Connection');
         }
 
-        $options = isset($spec['options']) ? (array) $spec['options'] : array();
+        $options = isset($spec['options']) ? (array)$spec['options'] : array();
 
-        return new ZendDb($adapter, array());
+        return new ZendDb($adapter, $options);
     }
 }
