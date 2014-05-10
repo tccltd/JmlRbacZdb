@@ -20,7 +20,7 @@
         "zf-commons/zfc-rbac": "~0.2"
     },
     "require-dev": {
-        "phpunit": "~4.2",
+        "phpunit/phpunit": "~4.2",
         "zendframework/zendframework": "~2.3"
     },
     "autoload": {
