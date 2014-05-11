@@ -7,25 +7,42 @@ namespace JmlRbacZdb\Factory;
 
 use JmlRbacZdb\Role\ZendDbRoleProvider;
 use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcRbac\Role\RoleProviderPluginManager;
 
-class ZendDbRoleProviderFactory implements FactoryInterface
+class ZendDbRoleProviderFactory implements FactoryInterface, MutableCreationOptionsInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @param RoleProviderPluginManager $pluginManager
+     * @return ZendDbRoleProvider|mixed
+     * @throws \DomainException
+     */
+    public function createService(ServiceLocatorInterface $pluginManager)
     {
-        $adapter = isset($spec['connection']) ? $spec['connection'] : null;
+        $adapter = isset($this->options['connection']) ? $this->options['connection'] : null;
         if (!$adapter) {
             throw new \DomainException('Missing required parameter: connection');
         }
+        $serviceManager = $pluginManager->getServiceLocator();
+        $adapter = $serviceManager->get($adapter);
+        $providerOptions = isset($this->options['options']) ? (array)$this->options['options'] : array();
+        return new ZendDbRoleProvider($adapter, $providerOptions);
+    }
 
-        if (is_string($adapter) && $serviceLocator->has($adapter)) {
-            $adapter = $serviceLocator->get($adapter);
-        } else {
-            throw new \DomainException('Failed to find Db Connection');
-        }
-
-        $options = isset($spec['options']) ? (array)$spec['options'] : array();
-
-        return new ZendDbRoleProvider($adapter, $options);
+    /**
+     * Set creation options
+     *
+     * @param  array $options
+     * @return void
+     */
+    public function setCreationOptions(array $options)
+    {
+        $this->options = $options;
     }
 }

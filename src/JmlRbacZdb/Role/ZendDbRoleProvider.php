@@ -2,6 +2,7 @@
 
 namespace JmlRbacZdb\Role;
 
+use Rbac\Role\Role;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 use ZfcRbac\Role\RoleProviderInterface;
@@ -41,40 +42,11 @@ class ZendDbRoleProvider implements RoleProviderInterface
         $select->where(array($options->getNameColumn() => $roleNames));
 
         $statement = $sql->prepareStatementForSqlObject($select);
-        $results = $statement->execute();
-        var_dump($results);
-        exit();
-
-        $sqlPattern = 'SELECT role.%s AS name, parent.%s AS parent
-                FROM %s role
-                LEFT JOIN %s parent
-                ON role.%s = parent.%s';
-
-        $values = array(
-            $options->getNameColumn(),
-            $options->getNameColumn(),
-            $options->getTable(),
-            $options->getTable(),
-            $options->getJoinColumn(),
-            $options->getIdColumn(),
-        );
-
-        $sql = vsprintf($sqlPattern, $values);
-
-        $result = $this->adapter->query($sql, array());
-
-        if (!$result->count()) {
-            throw new \DomainException('No role loaded');
-        }
-
         $roles = array();
-        foreach ($result as $row) {
-            if (isset($row->parent) && $row->parent) {
-                $parentName = $row->parent;
-            } else {
-                $parentName = 0;
-            }
-            $roles[$parentName][] = $row->name;
+        foreach ($statement->execute() as $row) {
+            $role = new Role($row[$options->getNameColumn()]);
+            $roles[] = $role;
         }
+        return $roles;
     }
 }
