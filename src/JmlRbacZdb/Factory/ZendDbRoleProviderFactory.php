@@ -20,8 +20,8 @@ class ZendDbRoleProviderFactory implements FactoryInterface, MutableCreationOpti
 
     /**
      * @param RoleProviderPluginManager $pluginManager
-     * @return ZendDbRoleProvider|mixed
      * @throws \DomainException
+     * @return ZendDbRoleProvider|mixed
      */
     public function createService(ServiceLocatorInterface $pluginManager)
     {
@@ -35,12 +35,6 @@ class ZendDbRoleProviderFactory implements FactoryInterface, MutableCreationOpti
         return new ZendDbRoleProvider($adapter, $providerOptions);
     }
 
-    /**
-     * Set creation options
-     *
-     * @param  array $options
-     * @return void
-     */
     public function setCreationOptions(array $options)
     {
         $this->options = $options;

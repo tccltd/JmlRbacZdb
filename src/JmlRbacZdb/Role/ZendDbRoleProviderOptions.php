@@ -5,26 +5,8 @@ use Zend\Stdlib\AbstractOptions;
 
 class ZendDbRoleProviderOptions extends AbstractOptions
 {
-    /**
-     * The name of the table the roles are stored in.
-     *
-     * @var string
-     */
-    protected $table = 'rbac_role';
-
-    /**
-     * The id column of the role table.
-     *
-     * @var string
-     */
-    protected $idColumn = 'role_id';
-
-    /**
-     * The name column of the role table.
-     *
-     * @var string
-     */
-    protected $nameColumn = 'role_name';
+    protected $roleTable = 'role';
+    protected $roleNameColumn = 'role_name';
 
     /**
      * The join column to the parent role. If left empty, then
@@ -34,77 +16,131 @@ class ZendDbRoleProviderOptions extends AbstractOptions
      *
      * @var string
      */
-    protected $joinColumn = 'parent_role_id';
+    protected $roleParentColumn = 'parent_role';
+
+    protected $permissionTable = 'permission';
+    protected $permissionNameColumn = 'permission_name';
+
+    protected $rolePermissionTable = 'role_permission';
+    protected $roleJoinColumn = 'role_name';
+    protected $permissionJoinColumn = 'permission_name';
 
     /**
-     * @param  string $idColumn
-     * @return $this
+     * @return string
      */
-    public function setIdColumn($idColumn)
+    public function getPermissionJoinColumn()
     {
-        $this->idColumn = (string) $idColumn;
-        return $this;
+        return $this->permissionJoinColumn;
+    }
+
+    /**
+     * @param string $permissionJoinColumn
+     */
+    public function setPermissionJoinColumn($permissionJoinColumn)
+    {
+        $this->permissionJoinColumn = $permissionJoinColumn;
     }
 
     /**
      * @return string
      */
-    public function getIdColumn()
+    public function getRoleParentColumn()
     {
-        return $this->idColumn;
+        return $this->roleParentColumn;
+    }
+
+    /**
+     * @param string $roleParentColumn
+     */
+    public function setRoleParentColumn($roleParentColumn)
+    {
+        $this->roleParentColumn = $roleParentColumn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRolePermissionTable()
+    {
+        return $this->rolePermissionTable;
+    }
+
+    /**
+     * @param string $rolePermissionTable
+     */
+    public function setRolePermissionTable($rolePermissionTable)
+    {
+        $this->rolePermissionTable = $rolePermissionTable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPermissionNameColumn()
+    {
+        return $this->permissionNameColumn;
+    }
+
+    /**
+     * @param string $permissionNameColumn
+     */
+    public function setPermissionNameColumn($permissionNameColumn)
+    {
+        $this->permissionNameColumn = $permissionNameColumn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPermissionTable()
+    {
+        return $this->permissionTable;
+    }
+
+    /**
+     * @param string $permissionTable
+     */
+    public function setPermissionTable($permissionTable)
+    {
+        $this->permissionTable = $permissionTable;
+    }
+
+    public function getRoleJoinColumn()
+    {
+        return $this->roleJoinColumn;
     }
 
     /**
      * @param  string $joinColumn
-     * @return $this
      */
-    public function setJoinColumn($joinColumn)
+    public function setRoleJoinColumn($joinColumn)
     {
-        $this->joinColumn = (string) $joinColumn;
-        return $this;
+        $this->roleJoinColumn = (string)$joinColumn;
     }
 
-    /**
-     * @return string
-     */
-    public function getJoinColumn()
+    public function getRoleNameColumn()
     {
-        return $this->joinColumn;
+        return $this->roleNameColumn;
     }
 
     /**
      * @param  string $nameColumn
-     * @return $this
      */
-    public function setNameColumn($nameColumn)
+    public function setRoleNameColumn($nameColumn)
     {
-        $this->nameColumn = (string) $nameColumn;
-        return $this;
+        $this->roleNameColumn = (string)$nameColumn;
     }
 
-    /**
-     * @return string
-     */
-    public function getNameColumn()
+    public function getRoleTable()
     {
-        return $this->nameColumn;
+        return $this->roleTable;
     }
 
     /**
      * @param  string $table
-     * @return $this
      */
-    public function setTable($table)
+    public function setRoleTable($table)
     {
-        $this->table = (string) $table;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTable()
-    {
-        return $this->table;
+        $this->roleTable = (string)$table;
     }
 }

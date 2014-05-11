@@ -4,10 +4,9 @@ namespace JmlRbacZdbTest\Role;
 
 use JmlRbacZdb\Role\ZendDbRoleProvider;
 use JmlRbacZdbTest\Bootstrap;
-use JmlRbacZdbTest\RbacServiceTestCase;
-use ZfcRbac\Service\Rbac as RbacService;
+use PHPUnit_Framework_TestCase;
 
-class ZendDbRoleProviderTest extends RbacServiceTestCase
+class ZendDbRoleProviderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var ZendDbRoleProvider
@@ -18,18 +17,16 @@ class ZendDbRoleProviderTest extends RbacServiceTestCase
     {
         $adapter = Bootstrap::getServiceManager()->get('JmlRbacZdbTest\Adapter');
         $options = [
-            'table' => 'role',
-            'idColumn' => 'id',
-            'nameColumn' => 'name',
-            'joinColumn' => 'parent_id',
+            'role_table' => 'role',
+            'role_name_column' => 'name',
+            'role_join_column' => 'role',
+            'permission_table' => 'permission',
+            'permission_name_column' => 'name',
+            'permission_join_column' => 'permission',
         ];
         $this->roleProvider = new ZendDbRoleProvider($adapter, $options);
     }
 
-    /**
-     * Test roles loaded from Db
-     * @return boolean
-     */
     public function testRoles()
     {
         $roleProvider = $this->roleProvider;
@@ -47,5 +44,20 @@ class ZendDbRoleProviderTest extends RbacServiceTestCase
             ZendDbRoleProvider::ERROR_MISSING_ROLE
         );
         $roleProvider->getRoles(['admin', 'member', 'unknown']);
+    }
+
+    public function testPermissions()
+    {
+        $roleProvider = $this->roleProvider;
+        $roles = $roleProvider->getRoles(['admin']);
+        $adminRole = $roles[0];
+        $this->assertTrue($adminRole->hasPermission('read'));
+        $this->assertTrue($adminRole->hasPermission('edit'));
+        $this->assertTrue($adminRole->hasPermission('delete'));
+        $roles = $roleProvider->getRoles(['member']);
+        $memberRole = $roles[0];
+        $this->assertTrue($memberRole->hasPermission('read'));
+        $this->assertFalse($memberRole->hasPermission('edit'));
+        $this->assertFalse($memberRole->hasPermission('delete'));
     }
 }
