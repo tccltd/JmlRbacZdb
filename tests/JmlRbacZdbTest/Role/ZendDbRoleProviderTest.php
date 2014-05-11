@@ -37,8 +37,6 @@ class ZendDbRoleProviderTest extends RbacServiceTestCase
         $this->assertCount(1, $roles);
         $roles = $roleProvider->getRoles(['admin', 'member']);
         $this->assertCount(2, $roles);
-        $roles = $roleProvider->getRoles(['admin', 'member', 'unknown']);
-        $this->assertCount(2, $roles);
     }
 
     public function testMissingRole()
