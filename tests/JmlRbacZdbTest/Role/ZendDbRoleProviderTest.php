@@ -1,21 +1,21 @@
 <?php
 
-namespace JmlRbacZdbTest\Provider\AdjacencyList\Role;
+namespace JmlRbacZdbTest\Role;
 
-use JmlRbacZdb\Provider\AdjacencyList\Role\ZendDb;
+use JmlRbacZdb\Role\ZendDbRoleProvider;
 use JmlRbacZdbTest\Bootstrap;
 use JmlRbacZdbTest\RbacServiceTestCase;
 use ZfcRbac\Service\Rbac as RbacService;
 
-class ZendDbTest extends RbacServiceTestCase
+class ZendDbRoleProviderTest extends RbacServiceTestCase
 {
     // mock adapter
     protected $_mockAdapter;
 
     /**
-    * @var Db
+    * @var ZendDbRoleProvider
     */
-    protected $_db;
+    protected $roleProvider;
 
     public function setUp()
     {
@@ -32,7 +32,7 @@ class ZendDbTest extends RbacServiceTestCase
         $this->_mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($this->_mockDriver));
 
         // set up Db
-        $this->_db = new ZendDb($this->_mockAdapter, array());
+        $this->_db = new ZendDbRoleProvider($this->_mockAdapter, array());
     }
 
     /**
@@ -99,5 +99,4 @@ class ZendDbTest extends RbacServiceTestCase
         $this->assertTrue($rbac->hasRole('subchild'));
         $this->assertFalse($rbac->hasRole('child3'));
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
-namespace JmlRbacZdb\Provider\AdjacencyList\Role;
+namespace JmlRbacZdb\Role;
 
 use Zend\Stdlib\AbstractOptions;
 
-class ZendDbOptions extends AbstractOptions
+class ZendDbRoleProviderOptions extends AbstractOptions
 {
     /**
      * The name of the table the roles are stored in.
