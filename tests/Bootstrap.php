@@ -1,6 +1,7 @@
 <?php
 namespace JmlRbacZdbTest;
 
+use Zend\Db\Adapter\Adapter;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
@@ -14,6 +15,9 @@ chdir(__DIR__);
 
 class Bootstrap
 {
+    /**
+     * @var ServiceManager
+     */
     protected static $serviceManager;
     protected static $config;
     protected static $bootstrap;
@@ -60,6 +64,7 @@ class Bootstrap
 
         static::$serviceManager = $serviceManager;
         static::$config = $config;
+        static::setAdapter();
     }
 
     public static function getServiceManager()
@@ -70,6 +75,18 @@ class Bootstrap
     public static function getConfig()
     {
         return static::$config;
+    }
+
+    protected static function setAdapter()
+    {
+        $dbOptions = [
+            'driver' => 'Pdo_Sqlite',
+            'database' => 'test-database.sqlite3'
+        ];
+        $db = new Adapter($dbOptions);
+        $serviceManager = static::getServiceManager();
+        $serviceManager->setService('JmlRbacZdbTest\Adapter', $db);
+        return $db;
     }
 
     protected static function initAutoloader()
@@ -118,5 +135,3 @@ class Bootstrap
 }
 
 Bootstrap::init();
-$rbacService = new RbacService;
-RbacServiceTestCase::setRbacService($rbacService);

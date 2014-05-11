@@ -13,6 +13,7 @@ use ZfcRbac\Role\RoleProviderInterface;
  */
 class ZendDbRoleProvider implements RoleProviderInterface
 {
+    const ERROR_MISSING_ROLE = 'One or more role not found.';
     /**
      * @var Adapter
      */
@@ -46,6 +47,9 @@ class ZendDbRoleProvider implements RoleProviderInterface
         foreach ($statement->execute() as $row) {
             $role = new Role($row[$options->getNameColumn()]);
             $roles[] = $role;
+        }
+        if (count($roles) < count($roleNames)) {
+            throw new \DomainException(self::ERROR_MISSING_ROLE);
         }
         return $roles;
     }
