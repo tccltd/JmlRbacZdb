@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "zf-commons/zfc-rbac": "dev-route-permissions-guard",
+        "zf-commons/zfc-rbac": "dev-delegator-factory",
         "zfr/rbac": "~1.2",
         "zendframework/zend-db": "~2.3"
     },
