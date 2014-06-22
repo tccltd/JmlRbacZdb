@@ -1,5 +1,0 @@
-<phpunit bootstrap="./Bootstrap.php">
-    <testsuite name="JmlRbacZdb Test Suite">
-        <directory>./JmlRbacZdbTest</directory>
-    </testsuite>
-4</phpunit>
