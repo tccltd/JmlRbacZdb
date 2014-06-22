@@ -8,7 +8,7 @@ before_install:
  - curl -s https://getcomposer.org/installer | php
  - php composer.phar install
 script:
- - phpunit
+  - ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
 matrix:
   fast_finish: true
   allow_failures:
