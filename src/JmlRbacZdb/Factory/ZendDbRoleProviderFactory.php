@@ -34,7 +34,7 @@ class ZendDbRoleProviderFactory implements FactoryInterface, MutableCreationOpti
         /** @var Adapter $adapter */
         $adapter = $serviceManager->get($adapter);
         $providerOptions = isset($this->options['options']) ? (array)$this->options['options'] : array();
-        return new ZendDbRoleProvider($adapter, $providerOptions);
+        return new ZendDbRoleProvider($serviceManager->get('jmlrbacdb_role_mapper'), $providerOptions);
     }
 
     public function setCreationOptions(array $options)

@@ -2,6 +2,7 @@
 
 namespace JmlRbacZdb\Role;
 
+use Rbac\Role\HierarchicalRole;
 use Rbac\Role\Role;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
@@ -25,14 +26,16 @@ class ZendDbRoleProvider implements RoleProviderInterface
      */
     protected $options;
 
+    protected $roleMapper;
+
     /**
      * @var array
      */
     protected $roles;
 
-    public function __construct(Adapter $adapter, array $options)
+    public function __construct($roleMapper, array $options)
     {
-        $this->adapter = $adapter;
+        $this->roleMapper = $roleMapper;
         $this->options = new ZendDbRoleProviderOptions($options);
     }
 
@@ -41,24 +44,9 @@ class ZendDbRoleProvider implements RoleProviderInterface
      * @return array|\Rbac\Role\RoleInterface[]
      * @throws \DomainException
      */
-    public function getRoles(array $roleNames)
+    public function getRoles(array $roleNames=null)
     {
-        $sql = new Sql($this->adapter);
-        $options = $this->options;
-        $select = $sql->select($options->getRoleTable());
-        $select->where([$options->getRoleNameColumn() => $roleNames]);
-
-        $statement = $sql->prepareStatementForSqlObject($select);
-        $roles = [];
-        foreach ($statement->execute() as $row) {
-            $role = new Role($row[$options->getRoleNameColumn()]);
-            $this->getRolePermissions($role);
-            $roles[] = $role;
-        }
-        if (count($roles) < count($roleNames)) {
-            throw new \DomainException(self::ERROR_MISSING_ROLE);
-        }
-        return $roles;
+        return isset($roleNames) ? $this->roleMapper->findByRoleNames($roleNames) : $this->roleMapper->fetchAll();
     }
 
     protected function getRolePermissions(Role $role)
