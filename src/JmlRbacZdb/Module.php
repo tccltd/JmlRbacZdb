@@ -1,8 +1,9 @@
 <?php
-
 namespace JmlRbacZdb;
 
-class Module
-{
+use TccAbstractModule\Module\AbstractModule;
 
+class Module extends AbstractModule
+{
+    protected $relativeModuleDir = '../../';
 }
