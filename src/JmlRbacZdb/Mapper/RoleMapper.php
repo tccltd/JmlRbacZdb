@@ -78,6 +78,7 @@ class RoleMapper
     // TODO: Will not properly populate hierarchical roles.
     public function findByRoleNames($roleNames)
     {
+        // Change $roleNames to array indexed on role (to ensure uniqueness and increase lookup speed).
         $roleNames = array_fill_keys($roleNames, true);
 
         // TODO: Consider whether this should be extracted out into, perhaps, the Hierarchical Role object.
@@ -97,7 +98,7 @@ class RoleMapper
         };
 
         // Return all Role objects identified by the specified role names.
-        return $findRoles($this->fetchAll(), array_fill_keys($roleNames, true));
+        return $findRoles($this->fetchAll());
     }
 
     public function populateUserWithRoles(IdentityInterface $user)
