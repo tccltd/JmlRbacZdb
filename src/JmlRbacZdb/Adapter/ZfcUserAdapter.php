@@ -28,7 +28,9 @@ class ZfcUserAdapter implements ListenerAggregateInterface
 
     public function populateUserWithRoles($e)
     {
-        $this->getRoleMapper()->populateUserWithRoles($e->getParam('entity'));
+        if($e->getParam('entity')) {
+            $this->getRoleMapper()->populateUserWithRoles($e->getParam('entity'));
+        }
     }
 
     protected function getRoleMapper()
