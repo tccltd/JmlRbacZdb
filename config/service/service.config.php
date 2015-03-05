@@ -8,14 +8,14 @@ use Zend\Db\Sql\Sql;
 
 return [
     'factories' => [
-        'jmlrbacdb_role_mapper' => function ($sm) {
+        'jmlrbaczdb_roleMapper' => function ($sm) {
             return new RoleMapper(
                 new Sql($sm->get('Zend\Db\Adapter\Adapter')),
                 new HydratingResultSet(new RoleHydrator(), new HierarchicalRole(''))
             );
         },
-        'jmlrbacdb_zfcuser_adapter' => function ($sm) {
-            return new ZfcUserAdapter($sm->get('jmlrbacdb_role_mapper'));
+        'jmlrbaczdb_zfcUserAdapter' => function ($sm) {
+            return new ZfcUserAdapter($sm->get('jmlrbaczdb_roleMapper'));
         },
     ],
 ];

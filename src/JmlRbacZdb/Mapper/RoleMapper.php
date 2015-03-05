@@ -101,6 +101,14 @@ class RoleMapper
         return $findRoles($this->fetchAll());
     }
 
+    public function populateUsersWithRoles($users)
+    {
+        foreach ($users as $user) {
+            $this->populateUserWithRoles($user);
+        }
+        return $users;
+    }
+
     public function populateUserWithRoles(IdentityInterface $user)
     {
         $userId = $user->getId();
